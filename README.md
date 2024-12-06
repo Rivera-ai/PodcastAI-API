@@ -2,6 +2,10 @@
 
 A Python client that provides a simple interface to interact with the PodcastAI API, allowing you to generate podcasts from PDFs or URLs and manage custom voices.
 
+## Web Documentation
+
+If you need to see some options or new features that we haven't covered yet in the API client you can check it out here: https://www.podcastai.tech/api/docs
+
 ## Installation
 
 ```bash
