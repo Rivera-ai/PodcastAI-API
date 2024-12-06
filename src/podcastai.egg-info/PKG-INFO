@@ -1,3 +1,17 @@
+Metadata-Version: 2.1
+Name: podcastai
+Version: 0.1.0
+Summary: Client API PodcastAI Studio
+Home-page: https://github.com/Rivera-ai/PodcastAI-API
+Author: Rivera.ai/Fredy
+Author-email: riveraaai200678@gmail.com
+Classifier: Programming Language :: Python :: 3
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Operating System :: OS Independent
+Requires-Python: >=3.8
+Description-Content-Type: text/markdown
+Requires-Dist: requests>=2.25.0
+
 # PodcastAI API Client
 
 A Python client that provides a simple interface to interact with the PodcastAI API, allowing you to generate podcasts from PDFs or URLs and manage custom voices.
@@ -9,9 +23,7 @@ If you need to see some options or new features that we haven't covered yet in t
 ## Installation
 
 ```bash
-git clone https://github.com/Rivera-ai/PodcastAI-API
-cd PodcastAI-API
-pip install -e .
+pip install requests
 ```
 
 ## Setup
@@ -19,7 +31,7 @@ pip install -e .
 To use the client, you'll need a valid PodcastAI API key. Initialize the client like this:
 
 ```python
-from podcastai import PodcastGeneratorClient
+from podcast_generator import PodcastGeneratorClient
 
 client = PodcastGeneratorClient(api_key="your_api_key_here")
 ```
@@ -149,7 +161,7 @@ except Exception as e:
 ## Complete Example
 
 ```python
-from podcastai import PodcastGeneratorClient
+from podcast_generator import PodcastGeneratorClient
 
 # Initialize client
 API_KEY = "your_api_key_here"

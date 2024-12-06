@@ -1,0 +1,9 @@
+README.md
+setup.py
+src/podcastai/__init__.py
+src/podcastai/client.py
+src/podcastai.egg-info/PKG-INFO
+src/podcastai.egg-info/SOURCES.txt
+src/podcastai.egg-info/dependency_links.txt
+src/podcastai.egg-info/requires.txt
+src/podcastai.egg-info/top_level.txt
