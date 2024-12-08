@@ -5,7 +5,7 @@ with open("README.md", "r") as fh:
 
 setuptools.setup(
     name="podcastai",
-    version="0.1.0",
+    version="0.1.2",
     author="Rivera.ai/Fredy",
     author_email="riveraaai200678@gmail.com",
     description="Client API PodcastAI Studio",

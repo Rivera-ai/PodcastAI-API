@@ -181,3 +181,40 @@ class PodcastGeneratorClient:
             raise Exception(f"Error en la API: {response.json()['error']}")
             
         return response.json()
+
+    def TTS(self, text: str, language: str = "es", speaker: str = "Sara", use_custom_voice: bool = False, custom_voice: Optional[str] = None ) -> Dict:
+        """
+                Convierte texto a voz usando el servicio TTS
+    
+            Args:
+                text: Texto a convertir en voz
+                language: Idioma del texto ('es', 'en', etc)
+                speaker: Voz a usar ('Sara' o 'Robert')
+                use_custom_voice: Si se usará una voz personalizada
+                custom_voice: URL de Cloudinary para la voz personalizada
+            
+            Returns:
+                Dict con la URL del audio generado y metadatos
+        """
+        data = {
+            'text': text,
+            'language': language,
+            'speaker': speaker,
+            'use_custom_voice': str(use_custom_voice).lower()
+        }
+        
+        if use_custom_voice:
+            if not custom_voice:
+                raise ValueError("Se requiere URL para la voz personalizada")
+            data['custom_voice'] = custom_voice
+            
+        response = requests.post(
+            f"{self.base_url}/api/v1/tts",
+            headers=self.headers,
+            data=data
+        )
+        
+        if response.status_code != 200:
+            raise Exception(f"Error en la API: {response.json()['error']}")
+            
+        return response.json()

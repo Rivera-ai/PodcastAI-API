@@ -1,6 +1,6 @@
 # PodcastAI API Client
 
-A Python client that provides a simple interface to interact with the PodcastAI API, allowing you to generate podcasts from PDFs or URLs and manage custom voices.
+A Python client that provides a simple interface to interact with the PodcastAI API, allowing you to generate podcasts from PDFs or URLs, manage custom voices, and convert text to speech.
 
 ## Web Documentation
 
@@ -55,7 +55,23 @@ result = client.upload_voice(
 result = client.delete_voice(voice_id=1)
 ```
 
-### 3. Podcast Generation
+### 3. Text to Speech (TTS)
+
+Convert text to speech using different voices and languages:
+
+```python
+result = client.TTS(
+    text="Hello, this is a test message",
+    language="en",
+    speaker="Sara",  # or "Robert"
+    use_custom_voice=False,
+    custom_voice=None  # Cloudinary URL for custom voice if use_custom_voice=True
+)
+
+print("Audio URL:", result['audio_url'])
+```
+
+### 4. Podcast Generation
 
 #### From PDF
 ```python
@@ -118,11 +134,21 @@ result = client.generate_podcast_from_url(
   - `voice_id`: ID of the voice to delete
 - Returns: Dictionary with deletion confirmation
 
+#### `TTS(text: str, language: str = "es", speaker: str = "Sara", use_custom_voice: bool = False, custom_voice: Optional[str] = None) -> Dict`
+- Converts text to speech
+- Parameters:
+  - `text`: Text to convert to speech
+  - `language`: Text language (see Supported Languages)
+  - `speaker`: Voice to use ('Sara' or 'Robert')
+  - `use_custom_voice`: Whether to use a custom voice
+  - `custom_voice`: Cloudinary URL for custom voice (required if use_custom_voice=True)
+- Returns: Dictionary with audio URL and metadata
+
 #### `generate_podcast_from_pdf(...) -> Dict`
 - Generates a podcast from a PDF file
 - Main parameters:
   - `pdf_path`: Path to PDF file
-  - `language`: Podcast language ('en', 'es', etc)
+  - `language`: Podcast language (see Supported Languages)
   - `podcast_length`: "Base (3-5 min)" or "Extended (8-10 min)"
   - `question`: Specific question or focus (optional)
   - `use_custom_voices`: Whether to use custom voices
@@ -135,13 +161,33 @@ result = client.generate_podcast_from_url(
 - Parameters: Similar to `generate_podcast_from_pdf`, but with `url` instead of `pdf_path`
 - Returns: Dictionary with podcast URL and transcript
 
+## Supported Languages
+
+The API supports the following languages:
+- English (en)
+- Spanish (es)
+- French (fr)
+- German (de)
+- Italian (it)
+- Portuguese (pt)
+- Polish (pl)
+- Turkish (tr)
+- Russian (ru)
+- Dutch (nl)
+- Czech (cs)
+- Arabic (ar)
+- Chinese (zh)
+- Hungarian (hu)
+- Korean (ko)
+- Hindi (hi)
+
 ## Error Handling
 
 The client includes error handling for main operations. Errors are raised as exceptions with descriptive messages:
 
 ```python
 try:
-    result = client.generate_podcast_from_url(...)
+    result = client.TTS(text="Hello world", language="en")
 except Exception as e:
     print(f"Error: {str(e)}")
 ```
@@ -159,6 +205,17 @@ client = PodcastGeneratorClient(api_key=API_KEY)
 health = client.check_health()
 print("API Status:", health)
 
+# Generate TTS
+try:
+    result = client.TTS(
+        text="Welcome to PodcastAI",
+        language="en",
+        speaker="Sara"
+    )
+    print("Audio URL:", result['audio_url'])
+except Exception as e:
+    print(f"Error generating audio: {str(e)}")
+
 # Generate podcast
 try:
     result = client.generate_podcast_from_url(
@@ -168,9 +225,6 @@ try:
         question="Main summary"
     )
     print("Podcast URL:", result['podcast_url'])
-    print("\nTranscript:")
-    for line in result['transcript']:
-        print(f"{line['speaker']}: {line['text']}")
 except Exception as e:
     print(f"Error generating podcast: {str(e)}")
 ```
@@ -180,37 +234,8 @@ except Exception as e:
 1. Voice files must be in WAV format
 2. Custom voices require Cloudinary URLs
 3. API key should be kept secure and not shared
-4. Podcasts can be generated in multiple languages
-5. Two podcast lengths are available: Base (3-5 min) and Extended (8-10 min)
-
-## Common Use Cases
-
-### Educational Content
-```python
-result = client.generate_podcast_from_pdf(
-    pdf_path="lecture_notes.pdf",
-    language="en",
-    podcast_length="Extended (8-10 min)",
-    question="Explain the key concepts in simple terms"
-)
-```
-
-### News Summaries
-```python
-result = client.generate_podcast_from_url(
-    url="https://example.com/news-article",
-    language="en",
-    podcast_length="Base (3-5 min)",
-    question="What are the main events and their implications?"
-)
-```
-
-## Supported Languages
-
-The API supports multiple languages including:
-- English (en)
-- Spanish (es)
-- Additional languages may be available (check API documentation)
+4. Both TTS and podcasts support multiple languages
+5. Two podcast lengths available: Base (3-5 min) and Extended (8-10 min)
 
 ## Support
 
